@@ -7,6 +7,20 @@ inherit
 			out
 		end
 
+
+feature -- Init
+
+
+feature -- Access
+	name: STRING
+
+feature
+
+	set_name(a_name: STRING)
+	do
+		name := a_name
+	end
+
 feature -- Basic operations
 
 	affect (p: PLAYER)
@@ -22,7 +36,7 @@ feature -- Output
 	out: STRING
 			-- Textual representation.
 		do
-			Result := "."
+			Result := "[ ]"
 		end
 
 end

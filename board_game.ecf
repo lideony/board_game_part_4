@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-8-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-8-0 http://www.eiffel.com/developers/xml/configuration-1-8-0.xsd" name="board_game" uuid="36BE214D-DC51-423C-A602-F010E767969C">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="board_game" uuid="36BE214D-DC51-423C-A602-F010E767969C">
 	<target name="board_game">
 		<root class="APPLICATION" feature="make"/>
-		<option warning="true" syntax="provisional">
+		<option warning="true" is_attached_by_default="false" syntax="provisional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
@@ -13,6 +13,10 @@
 				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>
 			</file_rule>
+			<file_rule>
+				<exclude>^/square$</exclude>
+			</file_rule>
+			<cluster name="square" location="c:\users\linus\documents\github\board_game_part_4\square\"/>
 		</cluster>
 	</target>
 </system>

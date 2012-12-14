@@ -21,7 +21,7 @@ feature -- Basic operations
 			face_value := random.bounded_item (1, Face_count)
 		end
 
-feature {NONE} -- Implementation
+feature{DIE, CHANCE} -- Implementation
 
 	random: V_RANDOM
 			-- Random sequence.

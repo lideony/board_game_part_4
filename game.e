@@ -53,9 +53,9 @@ feature -- Basic operations
 					winners /= Void or else i > players.count
 				loop
 					players [i].play (die_1, die_2)
-					if players [i].position > board.Square_count then
+				if players [i].position > board.Square_count then
 						select_winners
-					end
+				end
 					i := i + 1
 				end
 				print_board
@@ -74,7 +74,7 @@ feature -- Constants
 	Max_player_count: INTEGER = 6
 			-- Maximum number of players.
 
-	Initial_money: INTEGER = 7
+	Initial_money: INTEGER = 1500
 			-- Initial amount of money of each player.
 
 feature -- Access

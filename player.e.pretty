@@ -80,8 +80,11 @@ feature -- Basic operations
 			else
 				move (d1.face_value + d2.face_value)
 			end
-			print (name + " rolled " + d1.face_value.out + " and " + d2.face_value.out + ". Moves to " + board.squares [position].name +".%N")
-			board.squares [position].affect (Current)
+
+				--			if position <= board.squares.upper then
+				--	board.squares [position].affect (Current)
+				--			end
+			print (name + " rolled " + d1.face_value.out + " and " + d2.face_value.out + ". Moves to " + board.squares [position].name + ". Now has " + money.out + " CHF.%N")
 		end
 
 invariant
