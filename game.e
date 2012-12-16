@@ -52,7 +52,14 @@ feature -- Basic operations
 				until
 					winners /= Void or else i > players.count
 				loop
-					players [i].play (die_1, die_2)
+					if players [i].rounds_in_jail = 0 then
+						players [i].play (die_1, die_2)
+
+					else
+						-- player[i] in jail
+						players [i].in_jail (die_1, die_2)
+					end
+
 				if players [i].position > board.Square_count then
 						select_winners
 				end

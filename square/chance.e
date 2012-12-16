@@ -38,17 +38,17 @@ feature
 			amount := random.bounded_item (-30, 20) * 10
 			p.transfer (amount)
 			if amount > 0 then
-				print ("Chance! " + p.name + " was lucky and gained " + amount.out + " CHF and has now " + p.money.out + " CHF. %N")
+				print ("[!] Chance: " + p.name + " was lucky and gained " + amount.out + " CHF and has now " + p.money.out + " CHF. %N")
 			elseif amount = 0 then
-				print ("Chance! " + p.name + " didn't lose or win any money and still has " + p.money.out + " CHF. %N")
+				print ("[!] Chance: " + p.name + " didn't lose or win any money and still has " + p.money.out + " CHF. %N")
 			else
-				print ("Chance! " + p.name + " had bad luck and looses " + amount.abs.out + " CHF and has now " + p.money.out + " CHF left.%N")
+				print ("[!] Chance: " + p.name + " had bad luck and looses " + amount.abs.out + " CHF and has now " + p.money.out + " CHF left.%N")
 			end
 		end
 
 	out: STRING
 		do
-			Result := "[C]"
+			Result := "[!]"
 		end
 
 	random: V_RANDOM

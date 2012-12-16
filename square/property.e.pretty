@@ -54,20 +54,14 @@ feature
 				owner_string := "none"
 			end
 			print ("*property details*: " + "price: " + price.out + " CHF, rent: " + rent.out + " CHF, owner: " + owner_string + "%N")
-			if owner = void then
-				p.offer_property (Current)
-			elseif owner /= p then
-				p.pay_rent (Current)
+			if p.money >= price and owner = void then
+				print ("***: Do you want to buy " + name + " for " + price.out + " CHF?[y/n]%N")
+				Io.read_line
+			elseif p.money < price and owner = void then
+				print ("***: You don't have enough money to buy this property.%N")
+			else
+				print ("*** This propery is owned")
 			end
 		end
-
-	set_owner(a_player: PLAYER)
-	require
-		player_void: a_player /= void
-	do
-		owner := a_player
-		ensure
-			owner = a_player
-	end
 
 end

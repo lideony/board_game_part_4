@@ -80,12 +80,44 @@ feature -- Basic operations
 			else
 				move (d1.face_value + d2.face_value)
 			end
-
-				--			if position <= board.squares.upper then
-				--	board.squares [position].affect (Current)
-				--			end
-			print (name + " rolled " + d1.face_value.out + " and " + d2.face_value.out + ". Moves to " + board.squares [position].name + ". Now has " + money.out + " CHF.%N")
+			print (name + " rolled " + d1.face_value.out + " and " + d2.face_value.out + ". Moves to " + board.squares [position].name + ".%N")
+			board.squares [position].affect (Current)
 		end
+
+	offer_property (a_property: PROPERTY)
+		require
+			property_already_owned: a_property.owner = void
+		do
+			if money >= a_property.price then
+				print ("***: Do you want to buy " + a_property.name + " for " + a_property.price.out + " CHF?" + PROMPT)
+				Io.read_line
+			else
+				print ("***: You don't have enough money to buy this property.%N")
+			end
+		end
+
+	buy_property (a_property: PROPERTY)
+		require
+			property_unowned: a_property.owner = void
+		do
+				-- withdraw property price
+			transfer (- a_property.price)
+				-- set property owner
+			a_property.set_owner (Current)
+		end
+
+	pay_rent (a_property: PROPERTY)
+		do
+				-- Remove rent of property visitor
+			transfer (- a_property.rent)
+				-- Add rent to owner's money
+			a_property.owner.transfer (a_property.rent)
+			print ("*** This property is owned by " + a_property.owner.name + ". You are paying " + a_property.rent.out + " CHF rent and have now " + money.out + "CHF left.%N")
+		end
+
+feature -- Const
+
+	PROMPT: STRING = " <y/N> %N"
 
 invariant
 	name_exists: name /= Void and then not name.is_empty

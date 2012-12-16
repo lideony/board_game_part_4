@@ -31,8 +31,9 @@ feature
 
 	imprison(p: PLAYER)
 	do
-		print ("*!!!*: "+p.name +"was arrested goes directly to Jail.")
+		print ("*[J] "+p.name +"was arrested goes directly to Jail.%N")
 		p.set_position (16)
+		p.set_round_in_jail (1)
 	end
 
 	out: STRING
