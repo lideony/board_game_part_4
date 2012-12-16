@@ -59,6 +59,7 @@ feature -- Access
 feature -- Constants
 	Square_count: INTEGER = 20
 			-- Number of squares.
+	Jail_position: INTEGER=16
 
 feature -- Output
 	out: STRING

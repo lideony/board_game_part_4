@@ -25,13 +25,13 @@ feature
 			create game.make (count)
 			game.play
 			if game.winners.count = 1 then
-				print ("%NAnd the winner is: " + game.winners [1].name)
+				print ("%NAnd the winner is: " + game.winners [1].name + "("+game.winners [1].money.out+" CHF)")
 			else
 				print ("%NAnd the winners are: ")
 				across
 					game.winners as c
 				loop
-					print (c.item.name + " ")
+					print (c.item.name + "("+c.item.money.out+" CHF)" + " ")
 				end
 			end
 			print ("%N*** Game Over ***")

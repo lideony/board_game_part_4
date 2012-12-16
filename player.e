@@ -15,6 +15,7 @@ feature {NONE} -- Initialization
 			name := n.twin
 			board := b
 			position := b.squares.lower
+			create {V_LINKED_LIST [PROPERTY]} property_list
 		ensure
 			name_set: name ~ n
 			board_set: board = b
@@ -34,8 +35,12 @@ feature -- Access
 
 	money: INTEGER
 			-- Amount of money.
+
 	rounds_in_jail: INTEGER
 			-- 0 if player is not in jail otherwise number of rounds in jail.
+
+	property_list: V_LIST [PROPERTY]
+			-- list of all property squares
 
 feature -- Moving
 
@@ -61,9 +66,9 @@ feature -- Money
 	transfer (amount: INTEGER)
 			-- Add `amount' to `money'.
 		do
-			money := (money + amount).max (0)
+			money := (money + amount)
 		ensure
-			money_set: money = (old money + amount).max (0)
+			money_set: money = (old money + amount)
 		end
 
 	offer_property (a_property: PROPERTY)
@@ -86,16 +91,17 @@ feature -- Money
 			property_unowned: a_property.owner = void
 		do
 				-- withdraw property price
-			transfer (-a_property.price)
+			transfer (- a_property.price)
 				-- set property owner
 			a_property.set_owner (Current)
-			print("[-] "+name + " bought "+a_property.name+ " for " + a_property.price.out + " CHF and has " +money.out+ " CHF left. %N")
+			property_list.extend_front (a_property)
+			print ("[-] " + name + " bought " + a_property.name + " for " + a_property.price.out + " CHF and has " + money.out + " CHF left. %N")
 		end
 
 	pay_rent (a_property: PROPERTY)
 		do
 				-- Remove rent of property visitor
-			transfer (-a_property.rent)
+			transfer (- a_property.rent)
 				-- Add rent to owner's money
 			a_property.owner.transfer (a_property.rent)
 			print ("[!] This property is owned by " + a_property.owner.name + ". You are paying " + a_property.rent.out + " CHF rent and have now " + money.out + "CHF left.%N")
@@ -109,10 +115,8 @@ feature -- Basic operations
 		require
 			dice_exist: d1 /= Void and d2 /= Void
 		local
-					go_money: STRING
+			go_money: STRING
 		do
-			d1.roll
-			d2.roll
 				-- Check if player did pass Go
 			if position + d1.face_value + d2.face_value > 20 then
 				money := money + 200
@@ -122,38 +126,70 @@ feature -- Basic operations
 				move (d1.face_value + d2.face_value)
 			end
 			print (name + " rolled " + d1.face_value.out + " and " + d2.face_value.out + ". Moves to " + board.squares [position].name + ".%N")
-			print (go_money); go_money := ""
+			print (go_money);
+			go_money := ""
 			board.squares [position].affect (Current)
 		end
 
+	retire_all_property
+	do
+		across property_list as p_list
+		loop
+			p_list.item.set_owner (void)
+		end
+		property_list.wipe_out
+	end
+
 feature -- Jail
 
-	set_round_in_jail(r: INTEGER)
-	require
-		r < 4
-	do
-		rounds_in_jail := r
+	set_round_in_jail (r: INTEGER)
+		require
+			r < 4
+		do
+			rounds_in_jail := r
 		ensure
 			rounds_in_jail = r
-	end
-
-	in_jail(d1,d2: DIE)
-	-- Play a turn with dice `d1', `d2'.
-
-	require
-		dice_exist: d1 /= Void and d2 /= Void
-	do
-		if rounds_in_jail = 3 then
-				-- pay fine
-			transfer (-50)
-				-- reset jail variable
-			rounds_in_jail := 0
-			print("[J] You payed a fine of 50 CHF and are now out of jail. You have " + money.out + " CHF left.%N")
-			play (d1, d2)
-			elseif rounds_in_jail < 3 then
-				print("[J] You are in jail. Do you want to pay a fine of 50 CHF to get free? "+prompt)
 		end
-	end
+
+	in_jail (d1, d2: DIE)
+			-- Play a turn with dice `d1', `d2'.
+
+		require
+			dice_exist: d1 /= Void and d2 /= Void
+		do
+			if rounds_in_jail = 4 then
+					-- pay fine
+				transfer (-50)
+					-- reset jail variable
+				rounds_in_jail := 0
+				print ("[J] [" + name + "] You payed a fine of 50 CHF and are now out of jail. You have " + money.out + " CHF left.%N")
+				play (d1, d2)
+			elseif rounds_in_jail < 3 then
+				print ("[J][" + name + "] You are in jail(round " + rounds_in_jail.out + "). Do you want to pay a fine of 50 CHF to get free? " + prompt)
+				Io.read_line
+				if Io.last_string.has ('y') then
+						-- pay fine
+					transfer (-50)
+					rounds_in_jail := 0
+					print ("[J] [" + name + "] You are now free and have " + money.out + " CHF left.%N")
+					play (d1, d2)
+				end
+			end
+			if rounds_in_jail < 4 and rounds_in_jail /= 0 then
+				if d1.face_value = d2.face_value then
+					if rounds_in_jail = 3 then
+						print("[J] "+ name + " is in jail(round "+rounds_in_jail.out+").")
+					end
+						-- doubles
+					print ("[J] [" + name + "] You are lucky and rolled doubles of " + d1.face_value.out + " and get out of jail.%N")
+					rounds_in_jail := 0
+					play (d1, d2)
+				else
+					print ("[J] [" + name + "] Bad luck! You rolled " + d1.face_value.out + " and " + d2.face_value.out + " and have to stay in jail.%N")
+					rounds_in_jail := rounds_in_jail + 1
+				end
+			end
+		end
 
 feature -- Const
 

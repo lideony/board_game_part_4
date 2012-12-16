@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 			loop
 				create p.make ("Player" + i.out, board)
 				p.transfer (Initial_money)
-				players.extend_back (p)
+				players.extend_front (p)
 				print (p.name + " joined the game.%N")
 				i := i + 1
 			end
@@ -40,18 +40,16 @@ feature -- Basic operations
 			i: V_LIST_ITERATOR [PLAYER]
 			player: PLAYER
 		do
-
 			from
-				winners := void
-				i := players.new_cursor
 				i.start
 				round := 1
+				i := players.new_cursor
 				print ("The game begins.%N")
-				print ("%NRound #" + round.out + "%N%N")
+				print_board
 			until
 				players.count = 1 or round > Max_rounds
 			loop
-
+				print ("%NRound #" + round.out + "%N%N")
 				player := i.item
 					-- roll dice
 				die_1.roll
@@ -63,20 +61,21 @@ feature -- Basic operations
 					player.in_jail (die_1, die_2)
 				end
 				if player.money < 0 then
-					print ("[Game Over] "+player.name + " is broke and retired from the game.%N")
 					player.retire_all_property
 					i.remove
 				else
 					i.forth
 				end
+					--				if round = 100 or players.count = 1 then
+					--						select_winners
+					--				end
 				if i.after then
-
 					print_board
 					i.start
 					round := round + 1
-					print ("%NRound #" + round.out + "%N%N")
 				end
-				select_winners
+
+					--				round := round + 1
 			end
 		ensure
 			has_winners: winners /= Void and then not winners.is_empty

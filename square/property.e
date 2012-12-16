@@ -62,8 +62,7 @@ feature
 		end
 
 	set_owner(a_player: PLAYER)
-	require
-		player_void: a_player /= void
+		--void if owner retires
 	do
 		owner := a_player
 		ensure
