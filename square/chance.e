@@ -48,7 +48,7 @@ feature
 
 	out: STRING
 		do
-			Result := "[!]"
+			Result := "C"
 		end
 
 	random: V_RANDOM

@@ -36,7 +36,7 @@ feature -- Output
 	out: STRING
 			-- Textual representation.
 		do
-			Result := "[.]"
+			Result := "."
 		end
 
 end

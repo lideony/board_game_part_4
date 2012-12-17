@@ -38,6 +38,6 @@ feature
 
 	out: STRING
 	do
-		Result := "[I]"
+		Result := "I"
 	end
 end

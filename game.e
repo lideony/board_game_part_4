@@ -91,7 +91,7 @@ feature -- Constants
 	Max_player_count: INTEGER = 6
 			-- Maximum number of players.
 
-	Initial_money: INTEGER = 1
+	Initial_money: INTEGER = 1500
 			-- Initial amount of money of each player.
 
 feature -- Access
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 				until
 					j >= players [i].position
 				loop
-					print ("   ")
+					print (" ")
 					j := j + 1
 				end
 				print (i)

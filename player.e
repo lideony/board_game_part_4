@@ -168,7 +168,7 @@ feature -- Jail
 				print ("[J][" + name + "] You are in jail(round " + rounds_in_jail.out + "). Do you want to pay a fine of 50 CHF to get free? " + prompt)
 				Io.read_line
 				if Io.last_string.has ('y') then
-						-- pay fine
+						-- pay fine and let player go
 					transfer (-50)
 					rounds_in_jail := 0
 					print ("[J] [" + name + "] You are now free and have " + money.out + " CHF left.%N")
@@ -198,7 +198,4 @@ feature -- Const
 invariant
 	name_exists: name /= Void and then not name.is_empty
 	board_exists: board /= Void
-	--position_valid: position >= board.squares.lower -- Token can go beyond the finish position, but not the start
-	--money_non_negative: money >= 0
-
 end

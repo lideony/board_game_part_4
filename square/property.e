@@ -41,7 +41,7 @@ feature
 
 	out: STRING
 		do
-			Result := "[P]"
+			Result := "P"
 		end
 
 	land (p: PLAYER)
@@ -53,7 +53,7 @@ feature
 			else
 				owner_string := "none"
 			end
-			print ("*property details*: " + "price: " + price.out + " CHF, rent: " + rent.out + " CHF, owner: " + owner_string + "%N")
+			print ("[property details*: " + "price: " + price.out + " CHF, rent: " + rent.out + " CHF, owner: " + owner_string + "]%N")
 			if owner = void then
 				p.offer_property (Current)
 			elseif owner /= p then
